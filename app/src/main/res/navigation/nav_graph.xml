@@ -1,28 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
-
+    app:startDestination="@id/homeFragment">
     <fragment
-        android:id="@+id/FirstFragment"
-        android:name="org.nunocky.mutuallyusableviewmodelsample.FirstFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first" >
-
+        android:id="@+id/viewBasedFragment"
+        android:name="org.nunocky.mutuallyusableviewmodelsample.ui.ViewBasedFragment"
+        android:label="ViewBasedFragment" />
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="org.nunocky.mutuallyusableviewmodelsample.ui.HomeFragment"
+        android:label="HomeFragment">
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
+            android:id="@+id/action_homeFragment_to_viewBasedFragment"
+            app:destination="@id/viewBasedFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_composeBasedFragment"
+            app:destination="@id/composeBasedFragment" />
     </fragment>
     <fragment
-        android:id="@+id/SecondFragment"
-        android:name="org.nunocky.mutuallyusableviewmodelsample.SecondFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second" >
-
-        <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
-    </fragment>
+        android:id="@+id/composeBasedFragment"
+        android:name="org.nunocky.mutuallyusableviewmodelsample.ui.ComposeBasedFragment"
+        android:label="ComposeBasedFragment" />
 </navigation>
