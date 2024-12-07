@@ -1,9 +1,9 @@
 <resources>
-    <string name="app_name">MutuallyUsableViewModelSample</string>
+    <string name="app_name">ReusableViewModelSample</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
     <string name="count">Count: %d</string>"
-    <string name="loading">loading...</string>
+    <string name="loading">loading…</string>
     <string name="increment">Increment</string>
     <string name="click">Click</string>
 </resources>

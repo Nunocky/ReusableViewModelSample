@@ -1,4 +1,4 @@
-package org.nunocky.mutuallyusableviewmodelsample
+package org.nunocky.reusableviewmodelsample
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

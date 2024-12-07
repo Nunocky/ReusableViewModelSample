@@ -1,4 +1,4 @@
-package org.nunocky.mutuallyusableviewmodelsample
+package org.nunocky.reusableviewmodelsample
 
 import android.os.Bundle
 import android.view.Menu
@@ -10,7 +10,8 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import org.nunocky.mutuallyusableviewmodelsample.databinding.ActivityMainBinding
+import org.nunocky.reusableviewmodelsample.databinding.ActivityMainBinding
+
 
 class MainActivity : AppCompatActivity() {
 

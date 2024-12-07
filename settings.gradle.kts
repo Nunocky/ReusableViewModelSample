@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "MutuallyUsableViewModelSample"
+rootProject.name = "ReusableViewModelSample"
 include(":app")

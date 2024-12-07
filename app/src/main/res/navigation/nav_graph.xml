@@ -5,11 +5,11 @@
     app:startDestination="@id/homeFragment">
     <fragment
         android:id="@+id/viewBasedFragment"
-        android:name="org.nunocky.mutuallyusableviewmodelsample.ui.ViewBasedFragment"
+        android:name="org.nunocky.reusableviewmodelsample.ui.ViewBasedFragment"
         android:label="ViewBasedFragment" />
     <fragment
         android:id="@+id/homeFragment"
-        android:name="org.nunocky.mutuallyusableviewmodelsample.ui.HomeFragment"
+        android:name="org.nunocky.reusableviewmodelsample.ui.HomeFragment"
         android:label="HomeFragment">
         <action
             android:id="@+id/action_homeFragment_to_viewBasedFragment"
@@ -20,6 +20,6 @@
     </fragment>
     <fragment
         android:id="@+id/composeBasedFragment"
-        android:name="org.nunocky.mutuallyusableviewmodelsample.ui.ComposeBasedFragment"
+        android:name="org.nunocky.reusableviewmodelsample.ui.ComposeBasedFragment"
         android:label="ComposeBasedFragment" />
 </navigation>

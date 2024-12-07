@@ -1,4 +1,4 @@
-package org.nunocky.mutuallyusableviewmodelsample.ui
+package org.nunocky.reusableviewmodelsample.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -31,9 +31,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import org.nunocky.mutuallyusableviewmodelsample.CommonViewModel
-import org.nunocky.mutuallyusableviewmodelsample.R
-import org.nunocky.mutuallyusableviewmodelsample.TaskXUiState
+import org.nunocky.reusableviewmodelsample.CommonViewModel
+import org.nunocky.reusableviewmodelsample.R
+import org.nunocky.reusableviewmodelsample.TaskXUiState
+
 
 // TODO : 非同期勝利中にボタンを非表示にする (View, Composeともに)
 

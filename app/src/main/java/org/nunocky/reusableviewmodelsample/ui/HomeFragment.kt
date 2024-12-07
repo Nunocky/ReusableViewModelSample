@@ -1,4 +1,4 @@
-package org.nunocky.mutuallyusableviewmodelsample.ui
+package org.nunocky.reusableviewmodelsample.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import org.nunocky.mutuallyusableviewmodelsample.R
-import org.nunocky.mutuallyusableviewmodelsample.databinding.FragmentHomeBinding
+import org.nunocky.reusableviewmodelsample.R
+import org.nunocky.reusableviewmodelsample.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null

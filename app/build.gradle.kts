@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "org.nunocky.mutuallyusableviewmodelsample"
+    namespace = "org.nunocky.reusableviewmodelsample"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "org.nunocky.mutuallyusableviewmodelsample"
+        applicationId = "org.nunocky.reusableviewmodelsample"
         minSdk = 28
         targetSdk = 35
         versionCode = 1
