@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -23,6 +24,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -33,6 +35,7 @@ import org.nunocky.mutuallyusableviewmodelsample.TaskXUiState
 
 class ComposeBasedFragment : Fragment() {
     private val viewModel: CommonViewModel by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -114,5 +117,13 @@ fun ComposesBasedScreen(viewModel: CommonViewModel = viewModel(), modifier: Modi
                 }
             }
         }
+    }
+}
+
+@Preview
+@Composable
+fun PreviewComposesBasedScreen() {
+    Surface(modifier = Modifier.fillMaxSize()) {
+        ComposesBasedScreen()
     }
 }
