@@ -58,7 +58,7 @@ class ViewBasedFragment : Fragment() {
         lifecycleScope.launch {
             viewModel.count.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
                 .collect { count ->
-                    binding.text1.text = "$count"
+                    binding.text1.text = "Count: $count"
                 }
         }
 
@@ -67,22 +67,22 @@ class ViewBasedFragment : Fragment() {
                 .collect { uiState ->
                     when (uiState) {
                         is TaskXUiState.Idle -> {
-                            binding.text1.text = "Count : ${viewModel.count.value}"
+                            binding.text2.text = ""
                             buttonVisibility.value = View.VISIBLE
                         }
 
                         is TaskXUiState.Loading -> {
-                            binding.text1.text = "loading..."
+                            binding.text2.text = "loading..."
                             buttonVisibility.value = View.INVISIBLE
                         }
 
                         is TaskXUiState.Success -> {
-                            binding.text1.text = uiState.text
+                            binding.text2.text = uiState.text
                             buttonVisibility.value = View.VISIBLE
                         }
 
                         is TaskXUiState.Error -> {
-                            binding.text1.text = uiState.message
+                            binding.text2.text = uiState.message
                             buttonVisibility.value = View.VISIBLE
                         }
                     }
