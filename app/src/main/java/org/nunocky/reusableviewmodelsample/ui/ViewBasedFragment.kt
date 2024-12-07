@@ -7,11 +7,15 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import kotlinx.coroutines.flow.MutableStateFlow
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 import org.nunocky.reusableviewmodelsample.CommonViewModel
 import org.nunocky.reusableviewmodelsample.R
 import org.nunocky.reusableviewmodelsample.TaskXUiState
 import org.nunocky.reusableviewmodelsample.databinding.FragmentViewBasedBinding
+import org.nunocky.reusableviewmodelsample.util.watchFlow
 import org.nunocky.reusableviewmodelsample.util.watchStateFlow
 
 class ViewBasedFragment : Fragment() {
@@ -20,7 +24,6 @@ class ViewBasedFragment : Fragment() {
     private var _binding: FragmentViewBasedBinding? = null
     private val binding get() = _binding!!
 
-    private val buttonVisibility = MutableStateFlow(View.VISIBLE)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,77 +51,73 @@ class ViewBasedFragment : Fragment() {
         }
 
 //        lifecycleScope.launch {
-//            buttonVisibility.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED).collect {
-//                binding.btnIncrement.visibility = it
-//                binding.btnAsynctask.visibility = it
-//            }
+//            viewModel.shouldShowButton.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+//                .collect {
+//                    val visibility = if (it) View.VISIBLE else View.INVISIBLE
+//                    binding.btnIncrement.visibility = visibility
+//                    binding.btnAsynctask.visibility = visibility
+//                }
 //        }
-        watchStateFlow(buttonVisibility) { visibility ->
+
+        watchFlow(viewModel.shouldShowButton) {
+            val visibility = if (it) View.VISIBLE else View.INVISIBLE
             binding.btnIncrement.visibility = visibility
             binding.btnAsynctask.visibility = visibility
         }
 
-//        lifecycleScope.launch {
-//            viewModel.count.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
-//                .collect { count ->
-//                    binding.text1.text =
-//                        requireContext().getString(R.string.count, count)
-//                }
-//        }
-        watchStateFlow(viewModel.count) { count ->
-            binding.text1.text = requireContext().getString(R.string.count, count)
+        lifecycleScope.launch {
+            viewModel.count.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .collect { count ->
+                    binding.text1.text =
+                        requireContext().getString(R.string.count, count)
+                }
         }
-
-//        lifecycleScope.launch {
-//            viewModel.uiState.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
-//                .collect { uiState ->
-//                    when (uiState) {
-//                        is TaskXUiState.Idle -> {
-//                            binding.text2.text = ""
-//                            buttonVisibility.value = View.VISIBLE
-//                        }
-//
-//                        is TaskXUiState.Loading -> {
-//                            binding.text2.text = requireContext().getString(R.string.loading)
-//                            buttonVisibility.value = View.INVISIBLE
-//                        }
-//
-//                        is TaskXUiState.Success -> {
-//                            binding.text2.text = uiState.text
-//                            buttonVisibility.value = View.VISIBLE
-//                        }
-//
-//                        is TaskXUiState.Error -> {
-//                            binding.text2.text = uiState.message
-//                            buttonVisibility.value = View.VISIBLE
-//                        }
-//                    }
-//                }
+//        watchStateFlow(viewModel.count) { count ->
+//            binding.text1.text = requireContext().getString(R.string.count, count)
 //        }
 
-        watchStateFlow(viewModel.uiState) {
-            when (it) {
-                is TaskXUiState.Idle -> {
-                    binding.text2.text = ""
-                    buttonVisibility.value = View.VISIBLE
-                }
+        lifecycleScope.launch {
+            viewModel.uiState.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .collect { uiState ->
+                    when (uiState) {
+                        is TaskXUiState.Idle -> {
+                            binding.text2.text = ""
+                        }
 
-                is TaskXUiState.Loading -> {
-                    binding.text2.text = requireContext().getString(R.string.loading)
-                    buttonVisibility.value = View.INVISIBLE
-                }
+                        is TaskXUiState.Loading -> {
+                            binding.text2.text = requireContext().getString(R.string.loading)
+                        }
 
-                is TaskXUiState.Success -> {
-                    binding.text2.text = it.text
-                    buttonVisibility.value = View.VISIBLE
-                }
+                        is TaskXUiState.Success -> {
+                            binding.text2.text = uiState.text
+                        }
 
-                is TaskXUiState.Error -> {
-                    binding.text2.text = it.message
-                    buttonVisibility.value = View.VISIBLE
+                        is TaskXUiState.Error -> {
+                            binding.text2.text = uiState.message
+                        }
+                    }
                 }
-            }
         }
+
+//        watchStateFlow(viewModel.uiState) {
+//            when (it) {
+//                is TaskXUiState.Idle -> {
+//                    binding.text2.text = ""
+//                }
+//
+//                is TaskXUiState.Loading -> {
+//                    binding.text2.text = requireContext().getString(R.string.loading)
+//                }
+//
+//                is TaskXUiState.Success -> {
+//                    binding.text2.text = it.text
+//                }
+//
+//                is TaskXUiState.Error -> {
+//                    binding.text2.text = it.message
+//                }
+//            }
+//        }
 
 //        lifecycleScope.launch {
 //            viewModel.shouldShowDialog.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)

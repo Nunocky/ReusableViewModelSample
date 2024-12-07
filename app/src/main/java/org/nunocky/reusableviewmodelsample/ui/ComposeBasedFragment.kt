@@ -29,14 +29,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import org.nunocky.reusableviewmodelsample.CommonViewModel
 import org.nunocky.reusableviewmodelsample.R
 import org.nunocky.reusableviewmodelsample.TaskXUiState
 
-
-// TODO : 非同期勝利中にボタンを非表示にする (View, Composeともに)
 
 class ComposeBasedFragment : Fragment() {
     private val viewModel: CommonViewModel by viewModels()
@@ -55,14 +54,17 @@ class ComposeBasedFragment : Fragment() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ComposesBasedScreen(viewModel: CommonViewModel = viewModel(), modifier: Modifier = Modifier) {
-
     val count by viewModel.count.collectAsStateWithLifecycle()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val shouldShowButton by viewModel.shouldShowButton.collectAsStateWithLifecycle(
+        initialValue = true,
+        lifecycleOwner = LocalLifecycleOwner.current
+    )
     val shouldShowDialog by viewModel.shouldShowDialog.collectAsStateWithLifecycle()
 
     Column(modifier = modifier) {
-        CounterSection(count, uiState, onClick = { viewModel.increment() })
-        TaskSection(uiState, onClick = { viewModel.processASyncFunction() })
+        CounterSection(count, shouldShowButton, onClick = { viewModel.increment() })
+        TaskSection(uiState, shouldShowButton, onClick = { viewModel.processASyncFunction() })
     }
 
     if (shouldShowDialog) {
@@ -95,31 +97,30 @@ fun ComposesBasedScreen(viewModel: CommonViewModel = viewModel(), modifier: Modi
 @Composable
 fun CounterSection(
     count: Int = 0,
-    uiState: TaskXUiState = TaskXUiState.Idle,
-    onClick: () -> Unit = { }
+    shouldShowButton: Boolean = true,
+    onClick: () -> Unit = { },
 ) {
     val context = LocalContext.current
+
     Column {
         Text(context.getString(R.string.count, count))
-        when (uiState) {
-            TaskXUiState.Loading -> {
-                Spacer(modifier = Modifier.height(48.dp))
+        if (shouldShowButton) {
+            Button(onClick = onClick) {
+                Text("Increment")
             }
-
-            else -> {
-                Button(onClick = onClick) {
-                    Text("Increment")
-                }
-            }
-
+        } else {
+            Spacer(modifier = Modifier.height(48.dp))
         }
     }
 }
 
 @Composable
-fun TaskSection(uiState: TaskXUiState = TaskXUiState.Idle, onClick: () -> Unit = { }) {
+fun TaskSection(
+    uiState: TaskXUiState = TaskXUiState.Idle,
+    shouldShowButton: Boolean = true,
+    onClick: () -> Unit = { },
+) {
     val context = LocalContext.current
-    val loading = uiState is TaskXUiState.Loading
 
     when (uiState) {
         TaskXUiState.Idle -> {
@@ -141,12 +142,12 @@ fun TaskSection(uiState: TaskXUiState = TaskXUiState.Idle, onClick: () -> Unit =
         }
     }
 
-    if (loading) {
-        Spacer(modifier = Modifier.height(48.dp))
-    } else {
+    if (shouldShowButton) {
         Button(onClick = onClick) {
             Text("Click")
         }
+    } else {
+        Spacer(modifier = Modifier.height(48.dp))
     }
 }
 
