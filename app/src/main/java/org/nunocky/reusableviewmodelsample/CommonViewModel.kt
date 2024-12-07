@@ -5,8 +5,10 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 suspend fun taskXFunction(count: Int): String {
@@ -33,10 +35,18 @@ class CommonViewModel : ViewModel() {
     private val _uiState = MutableStateFlow<TaskXUiState>(TaskXUiState.Idle)
     val uiState = _uiState.asStateFlow()
 
-    val shouldShowButton = _uiState.map { it !is TaskXUiState.Loading }
-
     private var _shouldShowDialog = MutableStateFlow(false)
     val shouldShowDialog = _shouldShowDialog.asStateFlow()
+
+    lateinit var shouldShowButton: StateFlow<Boolean>
+        private set
+
+    init {
+        viewModelScope.launch {
+            shouldShowButton =
+                _uiState.map { it !is TaskXUiState.Loading }.stateIn(scope = viewModelScope)
+        }
+    }
 
     fun increment() {
         _count.value++

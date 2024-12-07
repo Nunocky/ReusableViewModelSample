@@ -8,17 +8,17 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-fun <T> Fragment.watchFlow(flow: Flow<T>, block: (T) -> Unit) {
+fun <T> Fragment.watchStateFlow(stateFlow: StateFlow<T>, block: (T) -> Unit) {
     lifecycleScope.launch {
-        flow.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED).collect() { v ->
+        stateFlow.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED).collect() { v ->
             block.invoke(v)
         }
     }
 }
 
-fun <T> Fragment.watchStateFlow(stateFlow: StateFlow<T>, block: (T) -> Unit) {
+fun <T> Fragment.watchFlow(flow: Flow<T>, block: (T) -> Unit) {
     lifecycleScope.launch {
-        stateFlow.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED).collect() { v ->
+        flow.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED).collect() { v ->
             block.invoke(v)
         }
     }

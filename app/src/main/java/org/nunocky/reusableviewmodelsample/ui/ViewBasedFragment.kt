@@ -15,7 +15,6 @@ import org.nunocky.reusableviewmodelsample.CommonViewModel
 import org.nunocky.reusableviewmodelsample.R
 import org.nunocky.reusableviewmodelsample.TaskXUiState
 import org.nunocky.reusableviewmodelsample.databinding.FragmentViewBasedBinding
-import org.nunocky.reusableviewmodelsample.util.watchFlow
 import org.nunocky.reusableviewmodelsample.util.watchStateFlow
 
 class ViewBasedFragment : Fragment() {
@@ -59,7 +58,7 @@ class ViewBasedFragment : Fragment() {
 //                }
 //        }
 
-        watchFlow(viewModel.shouldShowButton) {
+        watchStateFlow(viewModel.shouldShowButton) {
             val visibility = if (it) View.VISIBLE else View.INVISIBLE
             binding.btnIncrement.visibility = visibility
             binding.btnAsynctask.visibility = visibility
