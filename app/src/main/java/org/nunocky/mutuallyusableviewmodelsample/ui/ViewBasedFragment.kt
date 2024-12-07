@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import org.nunocky.mutuallyusableviewmodelsample.CommonViewModel
+import org.nunocky.mutuallyusableviewmodelsample.R
 import org.nunocky.mutuallyusableviewmodelsample.TaskXUiState
 import org.nunocky.mutuallyusableviewmodelsample.databinding.FragmentViewBasedBinding
 
@@ -52,13 +53,15 @@ class ViewBasedFragment : Fragment() {
         lifecycleScope.launch {
             buttonVisibility.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED).collect {
                 binding.btnIncrement.visibility = it
+                binding.btnAsynctask.visibility = it
             }
         }
 
         lifecycleScope.launch {
             viewModel.count.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
                 .collect { count ->
-                    binding.text1.text = "Count: $count"
+                    binding.text1.text =
+                        requireContext().getString(R.string.count, viewModel.count.value)
                 }
         }
 
@@ -72,7 +75,7 @@ class ViewBasedFragment : Fragment() {
                         }
 
                         is TaskXUiState.Loading -> {
-                            binding.text2.text = "loading..."
+                            binding.text2.text = requireContext().getString(R.string.loading)
                             buttonVisibility.value = View.INVISIBLE
                         }
 
